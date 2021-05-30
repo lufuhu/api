@@ -33,6 +33,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::post('article_md', 'ArticleMdController@store')->name('article_md.store');
         Route::post('article_md/{id}', 'ArticleMdController@update')->name('article_md.update');
         Route::delete('article_md/{id}', 'ArticleMdController@destroy')->name('article_md.destroy');
+        Route::get('article_md_build/{id}', 'ArticleMdController@build')->name('article_md.build');
     });
     Route::middleware('auth:sanctum')->prefix('chat')->namespace('Chat')->group(function () {
         Route::get('room', 'ChatRoomController@index')->name('chat_room.index');

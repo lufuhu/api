@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Article\ArticleMd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 
 class ArticleMdController extends Controller
 {
@@ -48,6 +50,7 @@ class ArticleMdController extends Controller
         $params['status'] = $request->input('status') ? $params['status'] : 0;
         $obj->fill($params);
         $obj->save();
+        $this->build($obj->id);
         return $this->response($obj->id);
     }
 
@@ -55,13 +58,47 @@ class ArticleMdController extends Controller
     {
         $obj = ArticleMd::where('id', $id)->first();
         $obj->update($request->all());
+        $this->build($id);
         return $this->response();
     }
 
     public function destroy($id)
     {
         $obj = ArticleMd::where('id', $id)->first();
+        $this->delMdFile($obj);
         $obj->delete();
         return $this->response();
+    }
+
+    public function build($id)
+    {
+        $obj = ArticleMd::where('id', $id)->first();
+        if ($obj->status == 1){
+            $content = '---' . "\n";
+            $content = $content . 'title: ' . $obj->title . "\n";
+            $content = $content . 'date: ' . $obj->created_at . "\n";
+            $content = $content . 'topic: ' . $obj->topic . "\n";
+            $content = $content . 'tags:' . $obj->topic . "\n";
+            foreach ($obj->tag as $item) {
+                $content = $content . '  - ' . $item . "\n";
+            }
+            $content = $content . '---' . "\n\n";
+            $content = $content . $obj->content;
+            $url = date("Y-m-d", strtotime($obj->created_at)) . '-' . $obj->id . '.md';
+            Storage::disk('article')->put($url, $content);
+        } else {
+            $this->delMdFile($obj);
+        }
+        return $this->response();
+    }
+
+    private function delMdFile($obj)
+    {
+        $url = date("Y-m-d", strtotime($obj->created_at)) . '-' . $obj->id . '.md';
+        $res = Storage::disk('article')->delete($url);
+        if (!$res) {
+            abort(5409);
+        }
+        return $res;
     }
 }

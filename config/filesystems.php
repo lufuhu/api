@@ -52,6 +52,10 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'article' => [
+            'driver' => 'local',
+            'root' => '../../blog/_posts',
+        ],
     ],
 
     /*
