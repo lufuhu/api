@@ -20,4 +20,12 @@ class Controller extends BaseController
             'status' => 1
         ]);
     }
+
+    public function parseEnum($enum){
+        $data = [];
+        foreach ($enum as $k => $v){
+            $data[] = ['key' => $k, "value"=>$v];
+        }
+        return $data;
+    }
 }
