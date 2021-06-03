@@ -17,10 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('upload', 'IndexController@upload')->name('index.upload');
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('login', 'AuthController@login')->name('auth.login');
+
     });
     Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
         Route::post('loginout', 'AuthController@loginOut')->name('auth.loginOut');
