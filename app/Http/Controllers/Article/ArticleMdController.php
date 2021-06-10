@@ -76,7 +76,7 @@ class ArticleMdController extends Controller
             $content = $content . 'title: ' . $obj->title . "\n";
             $content = $content . 'date: ' . $obj->created_at . "\n";
             $content = $content . 'topic: ' . $obj->topic . "\n";
-            $content = $content . 'tags:' . $obj->topic . "\n";
+            $content = $content . 'tags: ' . $obj->topic . "\n";
             foreach ($obj->tag as $item) {
                 $content = $content . '  - ' . $item . "\n";
             }
