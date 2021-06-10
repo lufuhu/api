@@ -54,7 +54,7 @@ return [
 
         'article' => [
             'driver' => 'local',
-            'root' => '../../blog/_posts',
+            'root' => '../../blog',
         ],
     ],
 

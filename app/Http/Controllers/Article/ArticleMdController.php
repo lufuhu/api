@@ -83,6 +83,11 @@ class ArticleMdController extends Controller
             $content = $content . '---' . "\n\n";
             $content = $content . $obj->content;
             $url = date("Y-m-d", strtotime($obj->created_at)) . '-' . $obj->id . '.md';
+            if ($obj->type == 1) {
+                $url = '_posts/'.$url;
+            } else if ($obj->type == 2) {
+                $url = '_projects/'.$url;
+            }
             Storage::disk('article')->put($url, $content);
         } else {
             $this->delMdFile($obj);
