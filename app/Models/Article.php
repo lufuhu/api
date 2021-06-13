@@ -41,9 +41,9 @@ class Article extends BaseModel
         $this->attributes['tag'] = is_array($value) ? implode(',', $value) : '';
     }
 
-    public function setUrlAttribute($value)
+    public function getUrlAttribute($value)
     {
-        $this->attributes['url'] = $value ? $value : '/articles/' . $this->id . '.html';
+        return $value ? $value : '/articles/' . $this->id . '.html';
     }
     public static function getTopicAll()
     {
