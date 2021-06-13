@@ -43,7 +43,7 @@ class ArticleController extends Controller
         if ($request->input('tag')) {
             $query = $query->where("tag", '%' . $request->input('tag') . '%');
         }
-        $data = $query->where('status', 1)->where('type', 1)
+        $data = $query->where('status', 1)
             ->orderBy('sort', 'desc')
             ->orderBy('updated_at', 'desc')
             ->select('id', "title", "type", "pic", "topic", "tag", 'summary', 'status', 'url', 'sort', 'created_at', 'updated_at')->paginate();
