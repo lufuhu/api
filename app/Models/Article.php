@@ -24,8 +24,6 @@ class Article extends BaseModel
         "status",
     ];
 
-    protected $appends = ['url'];
-
     public static $EnumType = [
         0 => '默认', 1 => '博客文章', 2 => '开源项目', 3 => '轮播图', 4 => '速查表',
     ];
