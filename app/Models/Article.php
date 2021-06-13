@@ -43,7 +43,7 @@ class Article extends BaseModel
 
     public function setUrlAttribute($value)
     {
-        return $value ? $value : '/articles/' . $this->id . '.html';
+        $this->attributes['url'] = $value ? $value : '/articles/' . $this->id . '.html';
     }
     public static function getTopicAll()
     {
