@@ -62,7 +62,6 @@ class ArticleController extends Controller
         $params['title'] = $request->input('title') ? $params['title'] : "标题";
         $params['type'] = $request->input('type') ? $params['type'] : 0;
         $params['status'] = $request->input('status') ? $params['status'] : 0;
-        $params['url'] = $request->input('url') ? $params['url'] : '/articles/' . $this->id . '.html';
         $obj->fill($params);
         $obj->save();
         $this->storeHtml($obj);

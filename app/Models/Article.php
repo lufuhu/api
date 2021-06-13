@@ -41,6 +41,10 @@ class Article extends BaseModel
         $this->attributes['tag'] = is_array($value) ? implode(',', $value) : '';
     }
 
+    public function getUrlAttribute($value)
+    {
+        return $value ? $value : '/articles/' . $this->id . '.html';
+    }
     public static function getTopicAll()
     {
         $topics = self::pluck('topic')->toArray();
