@@ -28,6 +28,22 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::post('loginout', 'AuthController@loginOut')->name('auth.loginOut');
         Route::post('update_userinfo', 'AuthController@updateUserInfo')->name('auth.updateUserInfo');
     });
+
+    Route::prefix('home')->namespace('Home')->group(function () {
+        Route::get('index', 'IndexController@index')->name('index.index');
+
+        Route::prefix('article')->group(function () {
+            Route::get('get_select_data', 'ArticleController@getSelectData')->name('article.getSelectData');
+            Route::get('get_enum', 'ArticleController@enum')->name('article_md.enum');
+            Route::get('article', 'ArticleController@index')->name('article.index');
+            Route::get('article/{id}', 'ArticleController@view')->name('article.view');
+            Route::post('article', 'ArticleController@store')->name('article.store');
+            Route::post('article/{id}', 'ArticleController@update')->name('article.update');
+            Route::delete('article/{id}', 'ArticleController@destroy')->name('article.destroy');
+        });
+
+    });
+
     Route::prefix('article')->namespace('Article')->group(function () {
         Route::get('article_md_enum', 'ArticleMdController@enum')->name('article_md.enum');
         Route::get('article_md', 'ArticleMdController@index')->name('article_md.index');
