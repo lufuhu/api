@@ -14,6 +14,7 @@ class Article extends BaseModel
     protected $fillable = [
         "title",
         "type",
+        "url",
         "pic",
         "topic",
         "tag",
@@ -26,7 +27,7 @@ class Article extends BaseModel
     protected $appends = ['url'];
 
     public static $EnumType = [
-        0 => '默认', 1 => '博客文章', 2 => '开源项目', 3 => '速查表', 4 => '轮播图'
+        0 => '默认', 1 => '博客文章', 2 => '开源项目', 3 => '轮播图', 4 => '速查表',
     ];
     public static $EnumStatus = [
         0 => '草稿', 1 => '发布'
@@ -40,18 +41,6 @@ class Article extends BaseModel
     public function setTagAttribute($value)
     {
         $this->attributes['tag'] = is_array($value) ? implode(',', $value) : '';
-    }
-
-    public function getUrlAttribute()
-    {
-        return '/articles/' . $this->id . '.html';
-    }
-
-    public function setContentAttribute($value)
-    {
-        $Parsedown = new \Parsedown();
-        Storage::disk('article')->put($this->id . '.html', $Parsedown->text($value));
-        $this->attributes['content'] = $value;
     }
 
     public static function getTopicAll()

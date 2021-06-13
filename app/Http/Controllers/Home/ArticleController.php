@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -42,10 +43,10 @@ class ArticleController extends Controller
         if ($request->input('tag')) {
             $query = $query->where("tag", '%' . $request->input('tag') . '%');
         }
-        $data = $query->where('status', 1)
+        $data = $query->where('status', 1)->where('type', 1)
             ->orderBy('sort', 'desc')
             ->orderBy('updated_at', 'desc')
-            ->select('id', "title","type","pic","topic","tag", 'summary', 'status', 'sort','created_at','updated_at')->paginate();
+            ->select('id', "title", "type", "pic", "topic", "tag", 'summary', 'status', 'url', 'sort', 'created_at', 'updated_at')->paginate();
         return $this->response($data);
     }
 
@@ -61,8 +62,10 @@ class ArticleController extends Controller
         $params['title'] = $request->input('title') ? $params['title'] : "标题";
         $params['type'] = $request->input('type') ? $params['type'] : 0;
         $params['status'] = $request->input('status') ? $params['status'] : 0;
+        $params['url'] = $request->input('url') ? $params['url'] : '/articles/' . $this->id . '.html';
         $obj->fill($params);
         $obj->save();
+        $this->storeHtml($obj);
         return $this->response($obj->id);
     }
 
@@ -70,13 +73,20 @@ class ArticleController extends Controller
     {
         $obj = Article::where('id', $id)->first();
         $obj->update($request->all());
+        $this->storeHtml($obj);
         return $this->response();
+    }
+
+    public function storeHtml($obj)
+    {
+        $Parsedown = new \Parsedown();
+        Storage::disk('article')->put($obj->id . '.html', $Parsedown->text($obj->content));
     }
 
     public function destroy($id)
     {
         $obj = Article::where('id', $id)->first();
-        $this->delMdFile($obj);
+        Storage::disk('article')->delete($obj->id . '.html');
         $obj->delete();
         return $this->response();
     }
