@@ -64,7 +64,7 @@ class ArticleController extends Controller
         $params['status'] = $request->input('status') ? $params['status'] : 0;
         $obj->fill($params);
         $obj->save();
-        $this->storeHtml($obj);
+        $this->build($obj);
         return $this->response($obj->id);
     }
 
@@ -72,14 +72,15 @@ class ArticleController extends Controller
     {
         $obj = Article::where('id', $id)->first();
         $obj->update($request->all());
-        $this->storeHtml($obj);
+        $this->build($obj);
         return $this->response();
     }
 
-    public function storeHtml($obj)
+    public function build($data)
     {
         $Parsedown = new \Parsedown();
-        Storage::disk('article')->put($obj->id . '.html', $Parsedown->text($obj->content));
+        $data->content = $Parsedown->text($data->content);
+        Storage::disk('article')->put($data->id . '.html', view('articles', compact('data')));
     }
 
     public function destroy($id)
