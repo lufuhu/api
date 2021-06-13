@@ -25,7 +25,7 @@ class Article extends BaseModel
     ];
 
     public static $EnumType = [
-        0 => '默认', 1 => '博客文章', 2 => '开源项目', 3 => '轮播图', 4 => '速查表',
+        0 => '默认', 1 => '博客文章', 2 => '开源项目', 3 => '速查表', 4 => '轮播图',
     ];
     public static $EnumStatus = [
         0 => '草稿', 1 => '发布'
