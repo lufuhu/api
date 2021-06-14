@@ -45,7 +45,7 @@ class ArticleController extends Controller
         }
         $data = $query->where('status', 1)
             ->orderBy('sort', 'desc')
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->select('id', "title", "type", "pic", "topic", "tag", 'summary', 'status', 'url', 'sort', 'created_at', 'updated_at')->paginate();
         return $this->response($data);
     }
