@@ -16,6 +16,7 @@ class User extends Authenticatable
         'mail',
         'avatar',
         'nickname',
+        'driver',
         'status',
         'session_key',
         'keyword',

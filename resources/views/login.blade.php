@@ -63,11 +63,6 @@
             justify-content: space-between;
         }
 
-        .footer {
-            height: 200px;
-            background: #1a202c;
-        }
-
         .content {
             min-height: calc(100vh - 330px);
             padding-top: 80px;
@@ -125,7 +120,7 @@
 </div>
 <div class="content">
     <div class="w-main">
-        @if ($data)
+        @if ($ok)
             <div class="login">
                 登录成功
             </div>
@@ -138,15 +133,13 @@
         @endif
     </div>
 </div>
-<div class="footer">
 
-</div>
-<script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+@include("footer")
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 <script>
-    let data = {{$data}};
-    if (data) {
+    if ({{$ok}}) {
         Cookies.set('token', data.token);
-        Cookies.set('userInfo', data.userInfo);
+        Cookies.set('userInfo',  data.userInfo);
         window.location.href = "/";
     }
 </script>

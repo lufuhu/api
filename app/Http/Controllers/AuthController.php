@@ -6,13 +6,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Laracasts\Utilities\JavaScript\JavaScriptFacade;
 use Laravel\Socialite\Facades\Socialite;
-
 
 class AuthController extends Controller
 {
     public function index ($data = null) {
-        return view('login', compact('data'));
+        JavaScriptFacade::put(compact('data'));
+        return view('login' , ['ok'=> $data ? 1 : 0]);
     }
     /**
      * 将用户重定向到 GitHub 的授权页面
@@ -37,6 +38,7 @@ class AuthController extends Controller
         $user->mail = $soUser->getEmail();
         $user->avatar = $soUser->getAvatar();
         $user->nickname = $soUser->getNickname();
+        $user->driver = $driver;
         $user->save();
         $data = $this->doLogin($user);
         return $this->index($data);
