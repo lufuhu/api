@@ -29,7 +29,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     });
     Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
         Route::post('loginout', 'AuthController@loginOut')->name('auth.loginOut');
-        Route::post('update_userinfo', 'AuthController@updateUserInfo')->name('auth.updateUserInfo');
     });
 
     Route::prefix('home')->namespace('Home')->group(function () {
