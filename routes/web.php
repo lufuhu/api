@@ -17,5 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('login/{driver}', 'AuthController@redirectToProvider');
-Route::get('login/{driver}/callback', 'AuthController@handleProviderCallback');
+Route::get('auth/{driver}', 'AuthController@redirectToProvider');
+Route::get('auth/{driver}/callback', 'AuthController@handleProviderCallback');
