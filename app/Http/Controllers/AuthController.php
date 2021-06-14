@@ -11,7 +11,9 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-
+    public function index ($data = null) {
+        return view('login', compact('data'));
+    }
     /**
      * 将用户重定向到 GitHub 的授权页面
      */
@@ -36,7 +38,24 @@ class AuthController extends Controller
         $user->avatar = $soUser->getAvatar();
         $user->nickname = $soUser->getNickname();
         $user->save();
-        return $this->doLogin($user);
+        $data = $this->doLogin($user);
+        return $this->index($data);
+    }
+
+    public function doLogin($user){
+        if ($user->status != 0) {
+            abort(5001, User::$EnumStatus[$user->status]);
+        }
+        $params['last_login_time'] = date("Y-m-d H:i:s", time());
+        $user->fill($params);
+        if (!$user->save()) {
+            abort(5001);
+        }
+        $token = $user->createToken($user->id);
+        return [
+            'token' => $token->plainTextToken,
+            'userInfo' => $user
+        ];
     }
 
     public function login(Request $request)
@@ -47,24 +66,8 @@ class AuthController extends Controller
             abort(5002);
         }
 
-        return $this->doLogin($user);
-    }
-
-    public function doLogin($user, $params = [])
-    {
-        if ($user->status != 0) {
-            abort(5001, User::$EnumStatus[$user->status]);
-        }
-        $params['last_login_time'] = date("Y-m-d H:i:s", time());
-        $user->fill($params);
-        if (!$user->save()) {
-            abort(5001);
-        }
-        $token = $user->createToken($user->id);
-        return $this->response([
-            'token' => $token->plainTextToken,
-            'userInfo' => $user
-        ]);
+        $data = $this->doLogin($user);
+        return $this->response($data);
     }
 
 
