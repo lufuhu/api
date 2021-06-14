@@ -147,6 +147,7 @@
     if (data) {
         Cookies.set('token', data.token);
         Cookies.set('userInfo', data.userInfo);
+        window.location.href = "/";
     }
 </script>
 </body>
