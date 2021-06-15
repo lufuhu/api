@@ -54,7 +54,7 @@ return [
 
         'article' => [
             'driver' => 'local',
-            'root' => 'articles',
+            'root' => 'public/articles',
         ],
     ],
 

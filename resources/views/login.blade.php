@@ -14,7 +14,7 @@
         @else
             <div class="login">
                 <a href="/auth/github">
-                    <img src="https://www.lufuhu.com/static/icon/github-00.png">
+                    <img style="width: 28px" src="https://www.lufuhu.com/static/icon/github-00.png">
                 </a>
             </div>
         @endif
