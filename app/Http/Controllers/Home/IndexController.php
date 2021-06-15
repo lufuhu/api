@@ -11,7 +11,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $data['swiper'] = Article::where('status', 1)->where('type', 4)->select('id', 'title', 'pic', 'url', 'summary')->get();
+        $data['swiper'] = Article::where('status', 1)->where('type', 3)->select('id', 'title', 'pic', 'url', 'summary')->get();
         $data['project'] = Article::where('status', 1)->where('type', 2)->select('id', 'title', 'pic', 'url', 'summary')->get();
         $topics = Article::getTopicAll();
         $topic = [];
