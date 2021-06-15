@@ -56,6 +56,10 @@ return [
             'driver' => 'local',
             'root' => 'public/articles',
         ],
+        'article1' => [
+            'driver' => 'local',
+            'root' => 'articles',
+        ],
     ],
 
     /*

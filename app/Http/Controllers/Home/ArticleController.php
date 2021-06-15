@@ -80,13 +80,13 @@ class ArticleController extends Controller
     {
         $Parsedown = new \Parsedown();
         $data->content = $Parsedown->text($data->content);
-        Storage::disk('article')->put($data->id . '.html', view('articles', compact('data')));
+        Storage::disk('article1')->put($data->id . '.html', view('articles', compact('data')));
     }
 
     public function destroy($id)
     {
         $obj = Article::where('id', $id)->first();
-        Storage::disk('article')->delete($obj->id . '.html');
+        Storage::disk('article1')->delete($obj->id . '.html');
         $obj->delete();
         return $this->response();
     }
