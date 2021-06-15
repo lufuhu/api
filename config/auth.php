@@ -114,4 +114,6 @@ return [
 
     'password_timeout' => 10800,
 
+
+    'user_edit' => [1],
 ];
