@@ -60,6 +60,11 @@ return [
             'driver' => 'local',
             'root' => 'articles',
         ],
+
+        'cheatsheet' => [
+            'driver' => 'local',
+            'root' => '../cheatsheet/pages',
+        ],
     ],
 
     /*

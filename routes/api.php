@@ -28,6 +28,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::post('loginout', 'AuthController@loginOut')->name('auth.loginOut');
     });
 
+    //博客
     Route::prefix('home')->namespace('Home')->group(function () {
         Route::get('index', 'IndexController@index')->name('index.index');
 
@@ -42,6 +43,24 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
 
     });
+
+    //速查表
+    Route::prefix('cheatsheet')->namespace('CheatSheet')->group(function () {
+        Route::get('cheatsheet', 'CheatSheetController@index')->name('cheatsheet.index');
+        Route::post('cheatsheet', 'CheatSheetController@store')->name('cheatsheet.store');
+        Route::post('cheatsheet/{id}', 'CheatSheetController@update')->name('cheatsheet.update');
+        Route::post('build/{id}', 'CheatSheetController@build')->name('cheatsheet.build');
+        Route::delete('cheatsheet/{id}', 'CheatSheetController@destroy')->name('cheatsheet.destroy');
+
+        Route::get('cheatsheet_md/{pid}', 'CheatSheetMdController@index')->name('cheatsheet_md.index');
+        Route::get('cheatsheet_md/{pid}/{id}', 'CheatSheetMdController@view')->name('cheatsheet_md.view');
+        Route::post('cheatsheet_md', 'CheatSheetMdController@store')->name('cheatsheet_md.store');
+        Route::post('cheatsheet_md/{id}', 'CheatSheetMdController@update')->name('cheatsheet_md.update');
+        Route::delete('cheatsheet_md/{id}', 'CheatSheetMdController@destroy')->name('cheatsheet_md.destroy');
+    });
+
+
+
 
     Route::prefix('article')->namespace('Article')->group(function () {
         Route::get('article_md_enum', 'ArticleMdController@enum')->name('article_md.enum');
