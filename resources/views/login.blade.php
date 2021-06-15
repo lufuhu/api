@@ -26,7 +26,7 @@
 <script>
     if ({{$ok}}) {
         Cookies.set('token', data.token);
-        Cookies.set('userInfo', JSON.stringify(data.userInfo));
+        Cookies.set('userInfo', data.userInfo);
         window.location.href = "/";
     }
 </script>

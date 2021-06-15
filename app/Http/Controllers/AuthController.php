@@ -41,6 +41,7 @@ class AuthController extends Controller
         $user->driver = $driver;
         $user->save();
         $data = $this->doLogin($user);
+        $data['userInfo'] = json_encode($data['userInfo']->toArray());
         return $this->index($data);
     }
 
@@ -56,7 +57,7 @@ class AuthController extends Controller
         $token = $user->createToken($user->id);
         return [
             'token' => $token->plainTextToken,
-            'userInfo' => $user->toArray()
+            'userInfo' => $user
         ];
     }
 
