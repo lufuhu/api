@@ -43,7 +43,7 @@ class CheatSheetController extends Controller
         }
         Storage::disk('cheatsheet')->put($data->name_en . '.html', view('cheatsheet.item', compact('data', 'list')));
         $cheatSheetList = CheatSheet::get();
-        Storage::disk('cheatsheet')->put('index.html', view('cheatsheet.index', ['list' => $cheatSheetList]));
+        Storage::disk('cheatsheet')->put('home.html', view('cheatsheet.index', ['list' => $cheatSheetList]));
         return $this->response();
     }
 
