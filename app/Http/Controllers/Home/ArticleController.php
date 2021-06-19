@@ -53,6 +53,8 @@ class ArticleController extends Controller
     public function view($id)
     {
         $obj = Article::find($id);
+        $Parsedown = new \Parsedown();
+        $obj->content = $Parsedown->text($obj->content);
         return $this->response($obj);
     }
 
