@@ -38,7 +38,7 @@ class CheatSheetController extends Controller
         $data = CheatSheet::find($id);
         $list = CheatSheetMd::where('pid', $id)->get();
         $Parsedown = new \Parsedown();
-        foreach ($data as $item) {
+        foreach ($list as $item) {
             $item->content = $Parsedown->text($item->content);
         }
         Storage::disk('cheatsheet')->put($data->name_en . '.html', view('cheatsheet.item', compact('data', 'list')));
