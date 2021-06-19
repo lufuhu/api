@@ -35,6 +35,8 @@
         .w-main {
             width: 1024px;
             margin: 0 auto;
+        }
+        .content{
             padding: 30px 0;
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 1rem;
@@ -93,11 +95,11 @@
     </style>
 </head>
 <body>
-<div class="content">
+<div>
     <div class="header">
         <h1>速查表</h1>
     </div>
-    <div class="w-main">
+    <div class="w-main content">
         @foreach ($list as $item)
             <a href="/{{$item->name_en}}.html" class="item">
                 <img class="icon" src="{{$item->icon}}">
