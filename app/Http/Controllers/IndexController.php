@@ -7,14 +7,24 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Models\CheatSheet;
+use App\Models\CheatSheetMd;
 
 class IndexController extends Controller
 {
     public function test(){
-//        $data = Article::first();
+//        $id = 42;
+//        $data = CheatSheet::find($id);
+//        $list = CheatSheetMd::where('pid', $id)->get();
 //        $Parsedown = new \Parsedown();
-//        $data->content = $Parsedown->text($data->content);
-//        Storage::disk('article')->put($data->id . '.html', view('articles', compact('data')));
+//        foreach ($list as $item) {
+//            $item->content = $Parsedown->text($item->content);
+//        }
+//        return view('cheatsheet.item', compact('data', 'list'));
+//        Storage::disk('cheatsheet')->put($data->name_en . '.html', view('cheatsheet.item', compact('data', 'list')));
+        $cheatSheetList = CheatSheet::get();
+        return view('cheatsheet.index', ['list' => $cheatSheetList]);
+//        Storage::disk('cheatsheet')->put('index.html', view('cheatsheet.index', ['list' => $cheatSheetList]));
     }
 
     public function upload(Request $request){

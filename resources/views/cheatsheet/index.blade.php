@@ -4,27 +4,106 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="{{$data->summary}}">
-    <meta name="keywords" content="编程问号,lufuhu,{{$data->topic}},{{implode(',', $data->tag)}}">
-    <meta name="author" content="编程问号">
+    <meta name="description" content="速查表">
+    <meta name="keywords" content="lufuhu,速查表">
+    <meta name="author" content="lufuhu">
     <link rel="icon" href="/favicon.ico">
-    <title>{{$data->title}}</title>
-    <link href="https://cdn.bootcdn.net/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css" rel="stylesheet">
-    <style>*,html{margin:0;padding:0}a{color:inherit;text-decoration:inherit}.border-b{border-bottom:1px solid #e5e7eb}.w-main{width:1024px;margin:0 auto}.flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}.content{min-height:calc(100vh - 200px);padding-top:80px;padding-bottom:50px}.sub-title{margin-top:15px;margin-bottom:30px;padding-bottom:15px;font-size:14px;color:#52585f}.text-center{text-align:center}</style>
+    <title>LUFUHU | 速查表</title>
+    <style>
+        *, html {
+            margin: 0;
+            padding: 0
+        }
+
+        body{
+            background-color: #e4e7e7;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit
+        }
+        .header{
+            height: 35vh;
+            background-color: #2b2b2b;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .w-main {
+            width: 1024px;
+            margin: 0 auto;
+            padding: 30px 0;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+            display: grid;
+        }
+        .item{
+            border: 1px solid #eceaea;
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 10px 15px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.01);
+        }
+        .item .icon{
+            width: 45px;
+            height: 45px;
+        }
+        .item .title{
+            margin-left: 10px;
+        }
+        /*sm*/
+        @media (min-width: 640px) {
+            .grid-item {
+                width: 100%;
+            }
+        }
+
+        /*md*/
+        @media (min-width: 768px) {
+            .grid-item {
+                width: 50%;
+            }
+        }
+
+        /*lg*/
+        @media (min-width: 1024px) {
+            .grid-item {
+                width: 33.3333333%;
+            }
+        }
+
+        /*xl*/
+        @media (min-width: 1280px) {
+            .grid-item {
+                width: 33.3333333%;
+            }
+        }
+
+        /*2xl*/
+        @media (min-width: 1800px) {
+            .grid-item {
+                width: 25%;
+            }
+        }
+    </style>
 </head>
 <body>
-@include("header")
 <div class="content">
+    <div class="header">
+        <h1>速查表</h1>
+    </div>
     <div class="w-main">
-        <h3 class="text-center">{{$data->title}}</h3>
-        <div class="border-b flex items-center justify-center sub-title">
-            <div>{{$data->topic}}</div>
-            <div>{{implode(',', $data->tag)}}</div>
-            <div>{{$data->created_at}}</div>
-        </div>
-        <div class="markdown-body">
-            {!! $data->content !!}
-        </div>
+        @foreach ($list as $item)
+            <a href="/{{$item->name_en}}.html" class="item">
+                <img class="icon" src="{{$item->icon}}">
+                <div class="title">{{$item->name}}</div>
+            </a>
+        @endforeach
     </div>
 </div>
 @include("footer")
