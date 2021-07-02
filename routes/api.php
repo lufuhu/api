@@ -24,7 +24,12 @@ Route::post('upload', 'IndexController@upload')->name('index.upload');
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
 
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('auth')->group(function () {
+        Route::get('qrcode_token', 'AuthController@qrcodeToken')->name('auth.qrcodeToken');
+        Route::post('qrcode_verify', 'AuthController@qrcodeVerify')->name('auth.qrcodeVerify');
+    });
+    Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
+        Route::post('qrcode_login', 'AuthController@qrcodeLogin')->name('auth.qrcodeLogin');
         Route::post('loginout', 'AuthController@loginOut')->name('auth.loginOut');
     });
 

@@ -6,11 +6,39 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+    public function qrcodeToken(){
+        $token = md5(uniqid(microtime()));
+        Cache::put($token, time(), 5);
+        return $this->response($token);
+    }
+
+    public function qrcodeVerify(Request $request){
+        $loginData = Cache::get($request->input('token').'_login_data');
+        if ($loginData){
+            return $this->response($loginData);
+        }
+        $time = (int)Cache::get($request->input('token'));
+        if (!$time || ($time + 300) < time()){
+            abort(1021);
+        }
+        abort(1022);
+    }
+
+    public function qrcodeLogin(Request $request){
+        $loginData = [
+            'token' => $request->bearerToken(),
+            'userInfo' => $request->user(),
+        ];
+        Cache::put($request->input('token').'_login_data', $loginData, 60);
+        return $this->response();
+    }
+
     public function index ($data = null) {
         JavaScriptFacade::put(compact('data'));
         return view('login' , ['ok'=> $data ? 1 : 0]);
