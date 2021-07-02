@@ -16,7 +16,7 @@ class AuthController extends Controller
 {
     public function qrcodeToken(){
         $token = md5(uniqid(microtime()));
-        Cache::put($token, time(), 5);
+        Cache::put($token, time(), 300);
         return $this->response($token);
     }
 
