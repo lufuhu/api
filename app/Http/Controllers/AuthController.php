@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use EasyWeChat\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Laracasts\Utilities\JavaScript\JavaScriptFacade;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -31,12 +33,46 @@ class AuthController extends Controller
     }
 
     public function qrcodeLogin(Request $request){
+        $time = (int)Cache::get($request->input('token'));
+        if (!$time || ($time + 300) < time()){
+            abort(1021);
+        }
         $loginData = [
             'token' => $request->bearerToken(),
             'userInfo' => $request->user(),
         ];
         Cache::put($request->input('token').'_login_data', $loginData, 60);
-        return $this->response();
+        return $this->response(null, '登录成功');
+    }
+
+    public function wxLogin(Request $request)
+    {
+        if (!$request->input('code')){
+            abort(5003);
+        }
+        $wxAuth = [];
+        $openid = $session_key = null;
+        try {
+            $app = Factory::miniProgram(config('wechat'));
+            $wxAuth = $app->auth->session($request->input('code'));
+            $openid = $wxAuth['openid'];
+            $session_key = $wxAuth['session_key'];
+        } catch (\Exception $e) {
+            Log::error("wx-auth", $wxAuth);
+            abort(5003);
+        }
+        if (!$user = User::where('openid', $openid)->first()) {
+            $user = new User();
+            $params['keyword'] = uniqid();
+        }
+        $params['openid'] = $openid;
+        $params['session_key'] = $session_key;
+        if ($request->input('userInfo')) {
+            $params['nickname'] = $request->input('userInfo')['nickName'];
+            $params['avatar'] = $request->input('userInfo')['avatarUrl'];
+            $params['driver'] = 'wx';
+        }
+        return $this->response($this->doLogin($user, $params));
     }
 
     public function index ($data = null) {
@@ -72,7 +108,7 @@ class AuthController extends Controller
         return $this->index($data);
     }
 
-    public function doLogin($user){
+    public function doLogin($user, $params = []){
         if ($user->status != 0) {
             abort(5001, User::$EnumStatus[$user->status]);
         }
