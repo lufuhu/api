@@ -65,7 +65,20 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::delete('cheatsheet_md/{id}', 'CheatSheetMdController@destroy')->name('cheatsheet_md.destroy');
     });
 
+    //在线工具
+    Route::prefix('tool')->namespace('Tool')->group(function () {
+        Route::get('tool', 'ToolController@index')->name('tool.index');
+    });
 
+    //面试题
+    Route::prefix('interview')->namespace('Interview')->group(function () {
+        Route::get('get_select_data', 'InterviewController@getSelectData')->name('interview.getSelectData');
+        Route::get('interview', 'InterviewController@index')->name('interview.index');
+        Route::get('interview/{id}', 'InterviewController@view')->name('interview.view');
+        Route::post('interview', 'InterviewController@store')->name('interview.store');
+        Route::post('interview/{id}', 'InterviewController@update')->name('interview.update');
+        Route::delete('interview/{id}', 'InterviewController@destroy')->name('interview.destroy');
+    });
 
 
     Route::prefix('article')->namespace('Article')->group(function () {
