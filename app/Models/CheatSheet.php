@@ -23,6 +23,6 @@ class CheatSheet extends BaseModel
 
     public function getUrlAttribute($value)
     {
-        return $value ? $value : '/' . $this->name_en . '.html';
+        return $value ? $value : '/cheatsheets/' . $this->name_en . '.html';
     }
 }

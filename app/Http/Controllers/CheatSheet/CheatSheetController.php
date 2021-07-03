@@ -41,9 +41,7 @@ class CheatSheetController extends Controller
         foreach ($list as $item) {
             $item->content = $Parsedown->text($item->content);
         }
-        Storage::disk('cheatsheet')->put($data->name_en . '.html', view('cheatsheet.item', compact('data', 'list')));
-        $cheatSheetList = CheatSheet::get();
-        Storage::disk('cheatsheet')->put('home.html', view('cheatsheet.index', ['list' => $cheatSheetList]));
+        Storage::disk('cheatsheet')->put($data->name_en . '.html', view('cheatsheet', compact('data', 'list')));
         return $this->response();
     }
 

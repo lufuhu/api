@@ -63,7 +63,7 @@ return [
 
         'cheatsheet' => [
             'driver' => 'local',
-            'root' => '../../cheatsheet/dist',
+            'root' => 'cheatsheets',
         ],
     ],
 
